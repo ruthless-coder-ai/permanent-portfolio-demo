@@ -1,0 +1,186 @@
+:root {
+  /* Default: "rose ledger" — blush paper, plum ink */
+  --paper: #f9edf0;
+  --paper-deep: #f1dde3;
+  --paper-soft: #fdf7f8;
+  --ink: #48222f;
+  --ink-soft: #8f5e6d;
+  --ink-mute: #b48b99;
+  --rule: #e5c5d0;
+  --rule-soft: #eed6de;
+
+  /* Asset class colors — deepened for light ground */
+  --c-stocks: #4d6fae;
+  --c-bonds: #17897a;
+  --c-gold: #b3792c;
+  --c-cash: #71808f;
+
+  /* Signal colors */
+  --signal-red: #c14b3d;
+  --signal-amber: #a87a1e;
+  --signal-green: #2f8a5a;
+
+  /* Depth & body ground */
+  --shadow-sm: 0 1px 2px rgba(122, 52, 78, 0.08), 0 12px 30px rgba(122, 52, 78, 0.1);
+  --shadow-md: 0 1px 2px rgba(122, 52, 78, 0.08), 0 14px 36px rgba(122, 52, 78, 0.12);
+  --shadow-pop: 0 8px 28px rgba(122, 52, 78, 0.18);
+  --shadow-modal: 0 24px 80px rgba(122, 52, 78, 0.28);
+  --overlay: rgba(74, 36, 50, 0.4);
+  --glow-a: rgba(224, 116, 152, 0.1);
+  --glow-b: rgba(240, 178, 200, 0.14);
+  --bg-top: #fbf0f3;
+  --bg-bottom: #f4dee6;
+  --grain: 0.05;
+
+  /* Typography — sans throughout */
+  --display: 'Archivo', system-ui, sans-serif;
+  --expanded: 'Archivo Expanded', 'Archivo', system-ui, sans-serif;
+  --serif: 'Archivo', system-ui, sans-serif;
+  --sans: 'Geist', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  font: 16px/1.5 var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root[data-theme='evening'] {
+  /* "Evening ledger": deep spruce paper, warm ivory ink */
+  --paper: #131a16;
+  --paper-deep: #0d1210;
+  --paper-soft: #1a231e;
+  --ink: #ece7d9;
+  --ink-soft: #b9b4a3;
+  --ink-mute: #82806f;
+  --rule: #2d372f;
+  --rule-soft: #242d26;
+
+  /* Asset class colors — lifted for dark ground */
+  --c-stocks: #8fb0dd;
+  --c-bonds: #62c1b3;
+  --c-gold: #d6ad63;
+  --c-cash: #9aa7b8;
+
+  --signal-red: #e2796a;
+  --signal-amber: #dcaf58;
+  --signal-green: #8ec9a4;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25), 0 12px 30px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 1px 2px rgba(0, 0, 0, 0.25), 0 14px 36px rgba(0, 0, 0, 0.3);
+  --shadow-pop: 0 8px 28px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.55);
+  --overlay: rgba(6, 9, 7, 0.72);
+  --glow-a: rgba(214, 173, 99, 0.06);
+  --glow-b: rgba(98, 193, 179, 0.045);
+  --bg-top: #161e19;
+  --bg-bottom: #10150f;
+  --grain: 0.035;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+}
+
+body {
+  min-height: 100vh;
+  background-image:
+    radial-gradient(1100px 520px at 72% -8%, var(--glow-a), transparent 60%),
+    radial-gradient(900px 700px at -10% 110%, var(--glow-b), transparent 55%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  background-attachment: fixed;
+}
+
+/* Paper grain — keeps large dark fields from feeling flat */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: var(--grain);
+  pointer-events: none;
+  z-index: 2147483647;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--display);
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.smallcaps {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.rule {
+  border: none;
+  border-top: 1px solid var(--ink);
+  margin: 0;
+}
+
+.rule-double {
+  border: none;
+  height: 5px;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  margin: 0;
+}
+
+.rule-hair {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+/* Recharts overrides */
+.recharts-cartesian-axis-tick-value,
+.recharts-text {
+  font-family: var(--mono);
+  font-size: 10px;
+  fill: var(--ink-soft);
+  letter-spacing: 0.05em;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
+}

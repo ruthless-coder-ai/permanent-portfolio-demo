@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Masthead-style app icon: evening-ledger paper, double rule, four Browne legs. -->
+  <rect width="512" height="512" fill="#131a16"/>
+  <rect x="76" y="88" width="360" height="6" fill="#ece7d9"/>
+  <rect x="76" y="102" width="360" height="2" fill="#ece7d9"/>
+  <rect x="118" y="148" width="130" height="130" fill="#8fb0dd"/>
+  <rect x="264" y="148" width="130" height="130" fill="#62c1b3"/>
+  <rect x="118" y="294" width="130" height="130" fill="#d6ad63"/>
+  <rect x="264" y="294" width="130" height="130" fill="#9aa7b8"/>
+</svg>

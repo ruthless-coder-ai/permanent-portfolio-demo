@@ -1,0 +1,5 @@
+# Cloudflare Pages config. The /functions folder is picked up automatically
+# and deployed as edge functions (so /api/quote works in production).
+name = "permanent-portfolio-demo"
+compatibility_date = "2026-06-16"
+pages_build_output_dir = "dist"
