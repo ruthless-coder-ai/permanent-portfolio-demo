@@ -6,23 +6,32 @@
 
 type RegimeKey = 'prosperity' | 'inflation' | 'deflation' | 'tight';
 
-async function yQuote(symbol: string): Promise<{ price: number; chg: number } | null> {
+// MTD change (%) — current price vs the last close before this month began.
+// Scoring on single-day moves made the active read flip on every green/red
+// session; month-to-date is closer to the trend the playbooks act on.
+async function yChange(symbol: string): Promise<number | null> {
   try {
     const r = await fetch(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=1d`,
-      { headers: { 'User-Agent': 'Mozilla/5.0' }, cf: { cacheTtl: 300 } } as RequestInit,
+      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=3mo`,
+      { headers: { 'User-Agent': 'Mozilla/5.0' }, cf: { cacheTtl: 600 } } as RequestInit,
     );
     if (!r.ok) return null;
-    const m: any = (await r.json())?.chart?.result?.[0]?.meta;
-    if (!m?.regularMarketPrice) return null;
-    const prev = m.chartPreviousClose ?? m.regularMarketPrice;
-    return { price: m.regularMarketPrice, chg: prev ? ((m.regularMarketPrice - prev) / prev) * 100 : 0 };
+    const res: any = (await r.json())?.chart?.result?.[0];
+    const price: number | undefined = res?.meta?.regularMarketPrice;
+    if (!price) return null;
+    const ts: number[] = res.timestamp ?? [];
+    const closes: (number | null)[] = res.indicators?.quote?.[0]?.close ?? [];
+    const monthStart = Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), 1);
+    let ref: number | null = null;
+    for (let i = 0; i < ts.length; i++) {
+      if (ts[i] * 1000 >= monthStart) break;
+      if (closes[i] != null) ref = closes[i];
+    }
+    return ref ? ((price - ref) / ref) * 100 : null;
   } catch {
     return null;
   }
 }
-
-const yChange = async (symbol: string) => (await yQuote(symbol))?.chg ?? null;
 
 const clampPos = (n: number | null) => Math.max(0, n ?? 0);
 
